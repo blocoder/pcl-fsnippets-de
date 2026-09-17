@@ -1,0 +1,8 @@
+# Zeilenenden: LF im Repo, denn das Ziel ist immer ein Linux-Webserver.
+* text=auto eol=lf
+
+# Kataloge sind Text, aber gross - Git soll nicht diffen wollen.
+*.po diff=nodiff
+
+# Kompilierte Kataloge der Update-Bibliothek sind binaer.
+*.mo binary
