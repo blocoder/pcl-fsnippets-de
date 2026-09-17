@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Bundle-Konfiguration fuer Loco Translate, uebernommen aus pcl-fluentcrm-de.
+
+  Ohne diese Datei saehe Loco hier nur ein Plugin mit der Textdomain
+  "pcl-fluentsnippets-de". Der Katalog, um den es geht, gehoert der fremden
+  Textdomain easy-code-manager; Loco muss ausdruecklich erfahren, dass dieses
+  Bundle sie mitbringt. Damit bleibt Loco als Editor fuer Handgriffe nutzbar,
+  und es gibt keinen zweiten Stand in wp-content/languages/loco/.
+
+  Fuer die Werkzeugkette ist Loco nicht zustaendig: Der Katalog entsteht im
+  Repo, und ein Speichern in Loco wird beim naechsten deploy.sh ueberschrieben.
+
+  Der Domain Path von FluentSnippets heisst "/language". Die Vorlage (.pot)
+  liegt im Quell-Plugin und kommt mit dessen Updates.
+-->
+<bundle name="PC'L Übersetzungen für FluentSnippets" min-version="2.6.0">
+
+  <domain name="easy-code-manager">
+    <project name="FluentSnippets" slug="easy-code-manager">
+      <source>
+        <directory>../easy-code-manager/app</directory>
+      </source>
+      <target>
+        <directory>languages</directory>
+      </target>
+      <template>
+        <file>../easy-code-manager/language/easy-code-manager.pot</file>
+      </template>
+    </project>
+  </domain>
+
+</bundle>
