@@ -7,6 +7,13 @@ lädt.
 > Unabhängiges Projekt. Keine Verbindung zu WPManageNinja, den Herstellern von
 > FluentSnippets.
 
+> [!IMPORTANT]
+> **Nur das ZIP aus den [Releases](https://github.com/blocoder/pcl-fsnippets-de/releases/latest) installieren.**
+> Das Quellcode-Archiv der Repo-Startseite („Code → Download ZIP“) enthält
+> allein die `.po`-Dateien. Die daraus gebauten Kataloge (`.mo`, `.l10n.php`)
+> stecken im Release-Archiv – ohne sie übersetzt das Plugin nichts, und in der
+> Plugin-Liste steht „Keine Kataloge gefunden“.
+
 ---
 
 ## Warum eine eigene Übersetzung?
@@ -123,6 +130,10 @@ einzelnen Stellen auftauchen können. Das ist beim Hersteller gemeldet:
    herunterladen.
 2. Im Backend unter *Plugins → Installieren → Plugin hochladen* einspielen und
    aktivieren.
+
+Das ZIP steht unter *Releases* am rechten Rand der Repo-Startseite. Der grüne
+Knopf *Code → Download ZIP* daneben liefert den Quellcode ohne die gebauten
+Kataloge und damit ein Plugin, das nichts übersetzt.
 
 Die Seite muss auf `de_DE` oder `de_DE_formal` stehen. Der Plugin-Ordner heißt
 `pcl-fluentsnippets-de`, auch wenn dieses Repo einen kürzeren Namen trägt.

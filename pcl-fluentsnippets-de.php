@@ -4,7 +4,7 @@
  * Plugin URI:        https://github.com/blocoder/pcl-fsnippets-de
  * Update URI:        https://github.com/blocoder/pcl-fsnippets-de
  * Description:       Liefert die deutsche Übersetzung für FluentSnippets aus, in beiden Anreden (de_DE und de_DE_formal). Lädt sie vor allen anderen Katalogen und hält fremde deutsche Fassungen fern. Zeigt relative Zeiten in der Verwaltung deutsch an („vor 4 Tagen“). Der Katalog wird nur geladen, wenn FluentSnippets installiert ist.
- * Version:           1.2.0
+ * Version:           1.2.1
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Peter Claus Lamprecht (PC’L)
@@ -230,6 +230,103 @@ function pcl_fluentsnippets_de_block_foreign($override, $domain, $mofile = '') {
 }
 add_filter('override_load_textdomain', 'pcl_fluentsnippets_de_block_foreign', 1, 3);
 
+/* -------------------------------------------------------------------------
+ * Quellcode-Installation erkennen
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Stammt dieses Plugin aus dem Quellcode-Archiv statt aus dem Release?
+ *
+ * Im Repo stehen nur die `.po`; `.mo` und `.l10n.php` entstehen beim Bauen und
+ * liegen allein im Release-Archiv. Wer auf der Repo-Startseite „Code → Download
+ * ZIP“ nimmt, bekommt deshalb ein Plugin, das vollständig aussieht – der Ordner
+ * `languages/` ist ja gefüllt – und trotzdem nichts übersetzt. Von außen ist
+ * das nicht zu sehen; gemeldet von einem Nutzer am 20.09.2026, bei drei von
+ * vier Plugins auf einmal.
+ *
+ * Erkennungszeichen ist der Ordner als Ganzes, nicht die Datei zur aktuellen
+ * Locale: mindestens eine `.po`, aber kein einziger gebauter Katalog. Eine
+ * fehlende Datei zu genau einer Locale ist etwas anderes und hat ihren eigenen
+ * Hinweis.
+ *
+ * Kein `glob()`: Eckige Klammern im Installationspfad wären dort ein Muster.
+ */
+function pcl_fluentsnippets_de_quellinstallation() {
+    static $ergebnis = null;
+
+    if (null !== $ergebnis) {
+        return $ergebnis;
+    }
+
+    $ergebnis = false;
+    $dir      = pcl_fluentsnippets_de_languages_dir();
+
+    if (!is_dir($dir)) {
+        return $ergebnis;
+    }
+
+    $dateien = scandir($dir);
+
+    if (!$dateien) {
+        return $ergebnis;
+    }
+
+    $po = false;
+
+    foreach ($dateien as $datei) {
+        if (substr($datei, -3) === '.mo' || substr($datei, -9) === '.l10n.php') {
+            return $ergebnis;
+        }
+        if (substr($datei, -3) === '.po') {
+            $po = true;
+        }
+    }
+
+    $ergebnis = $po;
+
+    return $ergebnis;
+}
+
+/**
+ * Der Link auf die Releases, aus denen das fertige Paket kommt.
+ */
+function pcl_fluentsnippets_de_release_link() {
+    return sprintf(
+        '<a href="https://github.com/blocoder/pcl-fsnippets-de/releases/latest" target="_blank" rel="noopener">%s</a>',
+        esc_html__('Releases', 'pcl-fluentsnippets-de')
+    );
+}
+
+/**
+ * Hinweis im Backend, solange die gebauten Kataloge fehlen.
+ *
+ * Auf jeder Seite der Verwaltung und ohne Wegklicken: Das Plugin tut in diesem
+ * Zustand gar nichts, und wer es installiert hat, merkt das sonst erst, wenn
+ * ihm die englische Oberfläche auffällt. Zu sehen bekommt den Hinweis nur, wer
+ * Plugins aktualisieren darf – alle anderen können ohnehin nichts ausrichten.
+ */
+function pcl_fluentsnippets_de_quellinstallation_hinweis() {
+    if (!current_user_can('update_plugins') || !pcl_fluentsnippets_de_quellinstallation()) {
+        return;
+    }
+
+    printf(
+        '<div class="notice notice-warning"><p>%s</p></div>',
+        wp_kses(
+            sprintf(
+                /* translators: %s: link to the releases page */
+                __('<strong>PC’L Übersetzungen für FluentSnippets:</strong> Die gebauten Kataloge fehlen, das Plugin übersetzt deshalb nichts. Es stammt offenbar aus dem Quellcode-Archiv von GitHub („Code → Download ZIP“); darin stehen nur die Ausgangsdateien. Bitte das ZIP aus den %s herunterladen und unter Plugins → Installieren → Plugin hochladen darüberspielen.', 'pcl-fluentsnippets-de'),
+                pcl_fluentsnippets_de_release_link()
+            ),
+            array(
+                'strong' => array(),
+                'a'      => array('href' => array(), 'target' => array(), 'rel' => array()),
+            )
+        )
+    );
+}
+add_action('admin_notices', 'pcl_fluentsnippets_de_quellinstallation_hinweis');
+
 /**
  * Note in the plugin list which catalogues actually apply.
  *
@@ -238,6 +335,18 @@ add_filter('override_load_textdomain', 'pcl_fluentsnippets_de_block_foreign', 1,
  */
 function pcl_fluentsnippets_de_row_meta($links, $file) {
     if (plugin_basename(__FILE__) !== $file) {
+        return $links;
+    }
+
+    // Fehlt der ganze Satz gebauter Kataloge, ist die Locale nicht die
+    // Ursache. Dann hilft nur der Hinweis auf das Release-Archiv.
+    if (pcl_fluentsnippets_de_quellinstallation()) {
+        $links[] = sprintf(
+            /* translators: %s: link to the releases page */
+            __('Kompilierte Kataloge fehlen – aus dem Quellcode-Archiv installiert, bitte das ZIP aus den %s einspielen', 'pcl-fluentsnippets-de'),
+            pcl_fluentsnippets_de_release_link()
+        );
+
         return $links;
     }
 
