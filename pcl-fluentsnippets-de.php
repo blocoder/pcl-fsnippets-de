@@ -4,7 +4,7 @@
  * Plugin URI:        https://github.com/blocoder/pcl-fsnippets-de
  * Update URI:        https://github.com/blocoder/pcl-fsnippets-de
  * Description:       Liefert die deutsche Übersetzung für FluentSnippets aus, in beiden Anreden (de_DE und de_DE_formal). Lädt sie vor allen anderen Katalogen und hält fremde deutsche Fassungen fern. Zeigt relative Zeiten in der Verwaltung deutsch an („vor 4 Tagen“). Der Katalog wird nur geladen, wenn FluentSnippets installiert ist.
- * Version:           1.2.1
+ * Version:           1.2.2
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Peter Claus Lamprecht (PC’L)
