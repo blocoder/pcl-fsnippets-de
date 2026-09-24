@@ -14,7 +14,7 @@ Eine vollständige deutsche Übersetzung für FluentSnippets, in Du und in Sie.
 
 **Dieses Plugin wird nicht mehr weiterentwickelt.** Die Übersetzung für FluentSnippets steckt seit dem 22.09.2026 in „PC’L Übersetzungen für Fluent-Plugins“ (`pcl-fluent-de`), zusammen mit denen für FluentCommunity, FluentMessaging, FluentPlayer und FluentSnippets. Dort lässt sich jede Übersetzung einzeln abschalten, und die Kataloge werden nur noch gelesen, wenn ihr Plugin installiert ist.
 
-**Was zu tun ist:** `pcl-fluent-de` installieren (https://github.com/blocoder/pcl-fluent-de/releases), danach dieses Plugin deaktivieren und löschen. Solange beide aktiv sind, hält sich das neue Plugin heraus — es geht also nichts kaputt, wenn die Umstellung ein paar Tage dauert.
+**Was zu tun ist:** `pcl-fluent-de` installieren (https://github.com/blocoder/pcl-fluent-de/releases), danach dieses Plugin deaktivieren und löschen. Solange beide aktiv sind, hält sich das neue Plugin heraus. Es geht also nichts kaputt, wenn die Umstellung ein paar Tage dauert.
 
 FluentSnippets bringt keine deutsche Übersetzung mit, und auf wordpress.org gibt es keine. Dieses Plugin liefert sie: 482 von 485 Zeichenketten, in beiden Anreden (`de_DE` und `de_DE_formal`). Offen sind nur Produktnamen und eine Adresse.
 
